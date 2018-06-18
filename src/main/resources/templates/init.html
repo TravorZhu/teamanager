@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"/>
+    <style type="text/css">
+        body {
+            padding-top: 50px;
+        }
+
+        .starter-template {
+            padding: 40px 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Spring Security演示</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/}">首页</a></li>
+                <li><a th:href="@{http://www.baidu.com}">百度</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="starter-template">
+        <h2>注册</h2>
+        <!--/*@thymesVar id="addUserForm" type="top.travorzhu.teamanager.Form.AddUserForm"*/-->
+        <form class="form-signin" action="#" role="form" name="form" th:object="${addUserForm}"
+              th:action="@{/init}" method="post">
+            <p th:if="${param.add}" class="bg-success text-warning text-center">添加成功</p>
+            <div class="form-group">
+                <input type="hidden" name="role" value="Admin" placeholder="Role"/>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="bg-danger"/>
+                <input type="email" class="form-control" th:field="*{email}" value="" placeholder="Email"/>
+
+                <label>账号</label>
+                <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="bg-danger"/>
+                <input type="text" class="form-control" th:field="*{username}" value="" placeholder="账号"/>
+            </div>
+            <div class="form-group">
+                <label>密码</label>
+                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="bg-danger"/>
+                <input type="password" class="form-control" th:field="*{password}" placeholder="密码"/>
+            </div>
+            <div class="form-group">
+                <label>再次输入密码</label>
+                <<p th:if="${#fields.hasErrors('passworda')}" th:errors="*{passworda}" class="bg-danger"/>
+                <input type="password" class="form-control" th:field="*{passworda}" placeholder="密码"/>
+            </div>
+            <input type="submit" id="register" value="Register" class="btn btn-primary"/>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
