@@ -43,7 +43,7 @@ public class LoginController {
     @GetMapping("/init")
     public String init(AddUserForm addUserForm){
         if (userRepository.count()==0){
-            return "register";
+            return "init";
         }
         return "/";
     }
