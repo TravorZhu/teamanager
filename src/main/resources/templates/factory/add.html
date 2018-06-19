@@ -3,9 +3,6 @@
       xmlns:th="http://www.thymeleaf.org">
 <html>
 <head>
-  <meta name="_csrf" th:content="${_csrf.token}"/>
-  <!-- default header name is X-CSRF-TOKEN -->
-  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>茶叶溯源管理系统 | 工厂控制面板</title>
@@ -123,7 +120,8 @@
               <!-- /.card-header -->
               <!-- form start -->
               <!--/*@thymesVar id="addTeaForm" type="top.travorzhu.teamanager.Form.AddTeaForm"*/-->
-              <form role="form" th:action="@{'/factory/add?'+${_csrf.parameterName}+'='+${_csrf.token}}" th:object="${addTeaForm}" method="post" enctype="multipart/form-data">
+              <form role="form" th:action="@{'/factory/add?'}" th:object="${addTeaForm}" method="post"
+                    enctype="multipart/form-data">
                 <div class="card-body">
                   <p th:if="${param.add}" class="bg-success text-success text-center">添加成功</p>
                   <div class="form-group">

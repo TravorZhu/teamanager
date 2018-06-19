@@ -22,7 +22,6 @@ import top.travorzhu.teamanager.MyUtil;
 import top.travorzhu.teamanager.storage.StorageService;
 
 import javax.validation.Valid;
-import java.io.IOException;
 
 @Controller
 public class FactoryController {
@@ -52,7 +51,7 @@ public class FactoryController {
     }
 
     @GetMapping("/factory/add")
-    String add(Model model, AddTeaForm addTeaForm) throws IOException {
+    String add(Model model, AddTeaForm addTeaForm) {
         model.addAttribute("username", MyUtil.getUsername(SecurityContextHolder.getContext().getAuthentication()));
         return "/factory/add";
     }
@@ -65,11 +64,12 @@ public class FactoryController {
             return "redirect:/factory/editfactory?need";
         if (bindingResult.hasErrors())
             return "/factory/add";
+        factory.setLastTeaNum(factory.getLastTeaNum() + 1);
         MultipartFile file=addTeaForm.getImagine();
         TeaBig teaBig = new TeaBig(addTeaForm, factory);
-        storageService.store(file);
         String fileType=file.getOriginalFilename().split(".",2)[1];
         String fileName=teaBig.getId()+"."+fileType;
+        storageService.store(file, fileName);
         teaBig.setImgPath(String.format("/img/%s",fileName));
         for (TeaSmall teaSmall:
                 teaBig.getTeaSmalls()) {
