@@ -1,13 +1,13 @@
 package top.travorzhu.teamanager.Form;
 
+import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Id;
-import javax.validation.Valid;
-
-@Valid
+@Data
 public class AddTeaForm {
     String name;
+
+    String makeName;
 
     String detail;
 
@@ -29,19 +29,4 @@ public class AddTeaForm {
     public AddTeaForm() {
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
 }

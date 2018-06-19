@@ -9,6 +9,7 @@ import top.travorzhu.teamanager.Entity.User.MyUserDetail;
 import top.travorzhu.teamanager.Entity.User.RoleRepository;
 import top.travorzhu.teamanager.Entity.User.UserNRoleRepository;
 
+
 @Controller
 public class PanelController {
     @Autowired
@@ -17,23 +18,22 @@ public class PanelController {
     @Autowired
     RoleRepository roleRepository;
 
-    @GetMapping("/retail")
-    public String Detail(){
-        return "retail";
-    }
-
     @GetMapping("/login_success")
-    public String LoginSuccess(){
+    public String LoginSuccess() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
-        int userId=((MyUserDetail)userDetails).getId();
+        int userId = ((MyUserDetail) userDetails).getId();
         int roleId = userNRoleRepository.findByMyUserDetailId(userId).getRolesId();
-        switch (roleRepository.findById(roleId).getName()){
-            case "ROLE_ADMIN":      return "redirect:/admin";
-            case "ROLE_FACTORY":    return "redirect:/factory";
-            case "ROLE_RETAIL":     return "redirect:/retail";
-            default:                return "redirect:/logout";
+        switch (roleRepository.findById(roleId).getName()) {
+            case "ROLE_ADMIN":
+                return "redirect:/admin";
+            case "ROLE_FACTORY":
+                return "redirect:/factory";
+            case "ROLE_RETAIL":
+                return "redirect:/retail";
+            default:
+                return "redirect:/logout";
         }
     }
 }

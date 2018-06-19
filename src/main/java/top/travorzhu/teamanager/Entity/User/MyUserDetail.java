@@ -64,21 +64,21 @@ public class MyUserDetail implements UserDetails {
     }
 
     @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
-    private List<UserRole> roles;
+    private List<top.travorzhu.teamanager.Entity.User.UserRole> roles;
 
-    public List<UserRole> getRoles() {
+    public List<top.travorzhu.teamanager.Entity.User.UserRole> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<UserRole> roles) {
+    public void setRoles(List<top.travorzhu.teamanager.Entity.User.UserRole> roles) {
         this.roles = roles;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> auths = new ArrayList();
-        List<UserRole> roles = this.getRoles();
-        for (UserRole role : roles) {
+        List<top.travorzhu.teamanager.Entity.User.UserRole> roles = this.getRoles();
+        for (top.travorzhu.teamanager.Entity.User.UserRole role : roles) {
             auths.add(new SimpleGrantedAuthority(role.getName()));
         }
         return auths;

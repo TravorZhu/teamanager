@@ -3,9 +3,6 @@
       xmlns:th="http://www.thymeleaf.org">
 <html>
 <head>
-  <meta name="_csrf" th:content="${_csrf.token}"/>
-  <!-- default header name is X-CSRF-TOKEN -->
-  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>茶叶溯源管理系统 | 工厂控制面板</title>
@@ -30,7 +27,22 @@
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" th:href="@{/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css}">
   <!-- Google Font: Source Sans Pro -->
-  <link th:href="@{/css/googlefonts.css}" rel="stylesheet">\
+    <link th:href="@{/css/googlefonts.css}" rel="stylesheet">
+
+    <script th:inline="javascript">
+        var csrfName = [[${_csrf.parameterName}]];
+        var token = [[${_csrf.token}]];
+        var map = {};
+        map[csrfName] = token;
+
+        function logoutFunc() {
+            $.post('/logout', map,
+                function () {
+                    alert("你已成功登出，即将跳转回主页");
+                    window.location.href = '/';
+                })
+        }
+    </script>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -46,7 +58,7 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown"><a class="nav-link" data-toggle="dropdown" th:href="@{/logout}"> <em
+        <li class="nav-item dropdown"><a class="nav-link" data-toggle="dropdown" href="#" onclick="logoutFunc()"> <em
               class="fa fa-sign-out"></em></a>
       </li>
     </ul>
@@ -123,7 +135,8 @@
               <!-- /.card-header -->
               <!-- form start -->
               <!--/*@thymesVar id="addTeaForm" type="top.travorzhu.teamanager.Form.AddTeaForm"*/-->
-              <form role="form" th:action="@{'/factory/add?'+${_csrf.parameterName}+'='+${_csrf.token}}" th:object="${addTeaForm}" method="post" enctype="multipart/form-data">
+              <form role="form" th:action="@{'/factory/add?'}" th:object="${addTeaForm}" method="post"
+                    enctype="multipart/form-data">
                 <div class="card-body">
                   <p th:if="${param.add}" class="bg-success text-success text-center">添加成功</p>
                   <div class="form-group">
@@ -134,10 +147,15 @@
                     <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="输入产品名">
                   </div>
                   <div class="form-group">
-                    <label for="Detail">详细信息</label>
-                    <p th:if="${#fields.hasErrors('detail')}" th:errors="*{detail}" class="bg-danger"></p>
-                    <textarea rows="5" warp="virtual" class="form-control" id="Detail" th:field="*{detail}" placeholder="输入详细描述"></textarea>
+                      <label for="MakeName">制茶师名</label>
+                      <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="bg-danger"></p>
+                      <input type="text" class="form-control" id="MakeName" th:field="*{makeName}" placeholder="输入产品名">
                   </div>
+                    <div class="form-group">
+                        <label for="Detail">详细信息</label>
+                        <p th:if="${#fields.hasErrors('detail')}" th:errors="*{detail}" class="bg-danger"></p>
+                        <textarea rows="5" warp="virtual" class="form-control" id="Detail" th:field="*{detail}" placeholder="输入详细描述"></textarea>
+                    </div>
                   <div class="form-group">
                     <label for="imagine">图片</label>
                     <!--<p th:if="${#fields.hasErrors('file')}" th:errors="*{file}" class="bg-danger"></p>-->

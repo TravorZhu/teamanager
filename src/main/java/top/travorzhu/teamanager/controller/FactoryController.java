@@ -19,10 +19,12 @@ import top.travorzhu.teamanager.Entity.User.UserRepository;
 import top.travorzhu.teamanager.Form.AddTeaForm;
 import top.travorzhu.teamanager.Form.EditFactoryForm;
 import top.travorzhu.teamanager.MyUtil;
+import top.travorzhu.teamanager.Table.TeaForm;
 import top.travorzhu.teamanager.storage.StorageService;
 
 import javax.validation.Valid;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class FactoryController {
@@ -42,9 +44,6 @@ public class FactoryController {
     @Autowired
     private TeaSmallRepository teaSmallRepository;
 
-
-
-
     @GetMapping("/factory")
     String index(Model model) {
         model.addAttribute("username", MyUtil.getUsername(SecurityContextHolder.getContext().getAuthentication()));
@@ -52,7 +51,7 @@ public class FactoryController {
     }
 
     @GetMapping("/factory/add")
-    String add(Model model, AddTeaForm addTeaForm) throws IOException {
+    String add(Model model, AddTeaForm addTeaForm) {
         model.addAttribute("username", MyUtil.getUsername(SecurityContextHolder.getContext().getAuthentication()));
         return "/factory/add";
     }
@@ -65,18 +64,20 @@ public class FactoryController {
             return "redirect:/factory/editfactory?need";
         if (bindingResult.hasErrors())
             return "/factory/add";
+        factory.setLastTeaNum(factory.getLastTeaNum() + 1);
         MultipartFile file=addTeaForm.getImagine();
         TeaBig teaBig = new TeaBig(addTeaForm, factory);
-        storageService.store(file);
-        String fileType=file.getOriginalFilename().split(".",2)[1];
+        String filename = file.getOriginalFilename();
+        String fileType = filename.substring(filename.lastIndexOf(".") + 1);
         String fileName=teaBig.getId()+"."+fileType;
-        teaBig.setImgPath(String.format("/img/%s",fileName));
+        storageService.store(file, fileName);
+        teaBig.setImgPath(String.format("/teaimg/%s", fileName));
         for (TeaSmall teaSmall:
                 teaBig.getTeaSmalls()) {
             teaSmallRepository.save(teaSmall);
         }
         teaBigRepository.save(teaBig);
-        return "/factory/addsuccess";
+        return "redirect:/factory/addsuccess?id=" + teaBig.getId();
     }
 
     @GetMapping("/factory/editfactory")
@@ -98,5 +99,32 @@ public class FactoryController {
             factory.setName(editFactoryForm.getName());
         }
         return "redirect:/factory/editfactory?success";
+    }
+
+    @GetMapping("/factory/addsuccess")
+    public String AddSuccess(Model model, String id) {
+        for (int i = 0; i < 10; i++)
+            model.addAttribute("id" + i, id + i);
+        return "/factory/addsuccess";
+    }
+
+    @GetMapping("/factory/list")
+    public String ListTea(Model model) {
+        Factory factory;
+        MyUserDetail user = (MyUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        factory = factoryRepostory.findByMyUserDetail(user);
+        List<TeaBig> teaBigs = teaBigRepository.findAllByFactory(factory);
+        List<TeaForm> teaForms = new ArrayList<>();
+        for (TeaBig teabig :
+                teaBigs) {
+            teaForms.add(new TeaForm(teabig.getId(),
+                    teabig.getName(),
+                    teabig.getMakeName(),
+                    teaSmallRepository.countByTeaBigIdAndSaledIsTrue(teabig.getId()),
+                    teabig.getImgPath()));
+        }
+        model.addAttribute("username", MyUtil.getUsername(SecurityContextHolder.getContext().getAuthentication()));
+        model.addAttribute("teaForms", teaForms);
+        return "/factory/listtea";
     }
 }

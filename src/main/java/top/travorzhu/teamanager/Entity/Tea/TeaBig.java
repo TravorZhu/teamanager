@@ -1,25 +1,24 @@
 package top.travorzhu.teamanager.Entity.Tea;
 
-import org.aspectj.weaver.ast.Var;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import top.travorzhu.teamanager.Entity.Factory.Factory;
 import top.travorzhu.teamanager.Form.AddTeaForm;
 
 import javax.persistence.*;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class TeaBig {
     @Id
     String id;
     String name;
+    String makeName;
     String detail;
 
     String imgPath;
@@ -33,36 +32,13 @@ public class TeaBig {
     @Temporal(TemporalType.DATE)
     Date date;
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public TeaBig(String id, String name, String detail, List<TeaSmall> teaSmalls, Factory factory) {
-        this.id = id;
-        this.name = name;
-        this.detail = detail;
-        this.teaSmalls = teaSmalls;
-        this.factory = factory;
-    }
-
-    public String getImgPath() {
-        return imgPath;
-    }
-
-    public void setImgPath(String imgPath) {
-        this.imgPath = imgPath;
-    }
-
     public TeaBig(AddTeaForm addTeaForm, Factory factory){
         this.name=addTeaForm.getName();
         this.detail=addTeaForm.getDetail();
         this.factory=factory;
+        this.makeName = addTeaForm.getMakeName();
 
-        SimpleDateFormat df = new SimpleDateFormat("YYYYMMDD");
+        SimpleDateFormat df = new SimpleDateFormat("YYYYMMDd");
         String id=df.format(new Date());
         id+=String.format("%04d",factory.getId());
         id+=String.format("%04d",factory.getLastTeaNum());
@@ -71,48 +47,6 @@ public class TeaBig {
         for (int i=0;i<10;i++) {
             teaSmalls.add(new TeaSmall(id + i, id));
         }
-    }
 
-    public TeaBig() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
-    public List<TeaSmall> getTeaSmalls() {
-        return teaSmalls;
-    }
-
-    public void setTeaSmalls(List<TeaSmall> teaSmalls) {
-        this.teaSmalls = teaSmalls;
-    }
-
-    public Factory getFactory() {
-        return factory;
-    }
-
-    public void setFactory(Factory factory) {
-        this.factory = factory;
     }
 }

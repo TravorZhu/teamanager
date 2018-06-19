@@ -1,8 +1,11 @@
 package top.travorzhu.teamanager.Table;
+
+import lombok.Data;
 import top.travorzhu.teamanager.Entity.User.MyUserDetail;
 import top.travorzhu.teamanager.Entity.User.RoleRepository;
 import top.travorzhu.teamanager.Entity.User.UserNRoleRepository;
 
+@Data
 public class UserForm {
     private int id;
     private String username;
@@ -13,7 +16,7 @@ public class UserForm {
 
     final UserNRoleRepository userNRoleRepository;
 
-    public UserForm(MyUserDetail userDetail,RoleRepository roleRepository,UserNRoleRepository userNRoleRepository){
+    public UserForm(MyUserDetail userDetail, RoleRepository roleRepository, UserNRoleRepository userNRoleRepository){
         this.roleRepository=roleRepository;
         this.userNRoleRepository=userNRoleRepository;
         id=userDetail.getId();
@@ -27,37 +30,5 @@ public class UserForm {
             case "ROLE_RETAIL":role="零售商"; break;
             default:role="ERROR"; break;
         }
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

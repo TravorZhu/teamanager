@@ -27,6 +27,20 @@
     <link rel="stylesheet" th:href="@{/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css}">
     <!-- Google Font: Source Sans Pro -->
     <link th:href="@{/css/googlefonts.css}" rel="stylesheet">
+    <script th:inline="javascript">
+        var csrfName = [[${_csrf.parameterName}]];
+        var token = [[${_csrf.token}]];
+        var map = {};
+        map[csrfName] = token;
+
+        function logoutFunc() {
+            $.post('/logout', map,
+                function () {
+                    alert("你已成功登出，即将跳转回主页");
+                    window.location.href = '/';
+                })
+        }
+    </script>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -42,7 +56,8 @@
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
             <!-- Messages Dropdown Menu -->
-            <li class="nav-item dropdown"><a class="nav-link" data-toggle="dropdown" th:href="@{/logout}"> <em class="fa fa-sign-out"></em></a>
+            <li class="nav-item dropdown"><a class="nav-link" data-toggle="dropdown" href="#" onclick="logoutFunc()">
+                <em class="fa fa-sign-out"></em></a>
             </li>
         </ul>
     </nav>
@@ -119,7 +134,16 @@
                             <p th:if="${param.changesuccess}" class="bg-success text-success text-center">密码更改成功</p>
                             <div id="example2_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"></div><div class="col-sm-12 col-md-6"></div></div><div class="row"><div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                                 <thead>
-                                <tr role="row"><th class="sorting_asc" tabindex="0" rowspan="1" colspan="1" aria-sort="ascending">用户ID</th><th class="sorting" tabindex="0" rowspan="1" colspan="1" >用户名</th><th class="sorting" tabindex="0" rowspan="1" colspan="1">角色</th><th class="sorting" tabindex="0" rowspan="1" colspan="1">Email</th><th class="" tabindex="0" rowspan="1" colspan="1">重设密码</th><th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">删除用户</th></tr>
+                                <tr role="row">
+                                    <th class="sorting_asc" tabindex="0" rowspan="1" colspan="1" aria-sort="ascending">
+                                        用户ID
+                                    </th>
+                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1">用户名</th>
+                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1">角色</th>
+                                    <th class="sorting" tabindex="0" rowspan="1" colspan="1">Email</th>
+                                    <th class="" tabindex="0" rowspan="1" colspan="1">重设密码</th>
+                                    <th tabindex="0" aria-controls="example2" rowspan="1" colspan="1">删除用户</th>
+                                </tr>
                                 </thead>
                                 <!--/*@thymesVar id="userForms" type="top.travorzhu.teamanager.Table.UserForm"*/-->
                                 <tbody th:each="user,iterstat:${userForms}">
@@ -132,9 +156,18 @@
                                     <td><a th:href="'./deleteuser?id='+${user.id}"><em class="fa fa-trash"></em></a></td>
                                 </tr></tbody>
                                 <tfoot>
-                                <tr><th rowspan="1" colspan="1">用户ID</th><th rowspan="1" colspan="1">用户名</th><th rowspan="1" colspan="1">角色</th><th rowspan="1" colspan="1">Email</th><th rowspan="1" colspan="1">重设密码</th><th rowspan="1" colspan="1">删除用户</th></tr>
+                                <tr>
+                                    <th rowspan="1" colspan="1">用户ID</th>
+                                    <th rowspan="1" colspan="1">用户名</th>
+                                    <th rowspan="1" colspan="1">角色</th>
+                                    <th rowspan="1" colspan="1">Email</th>
+                                    <th rowspan="1" colspan="1">重设密码</th>
+                                    <th rowspan="1" colspan="1">删除用户</th>
+                                </tr>
                                 </tfoot>
-                            </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="example2_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+                            </table>
+                            </div>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>

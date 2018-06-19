@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>小包茶叶ID</title>
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-barcode.js"></script>
+    <script th:inline="javascript">
+        function myFunc() {
+            $("#teaid1").barcode([[${id0}]], "code11");
+            $("#teaid2").barcode([[${id1}]], "code11");
+            $("#teaid3").barcode([[${id2}]], "code11");
+            $("#teaid4").barcode([[${id3}]], "code11");
+            $("#teaid5").barcode([[${id4}]], "code11");
+            $("#teaid6").barcode([[${id5}]], "code11");
+            $("#teaid7").barcode([[${id6}]], "code11");
+            $("#teaid8").barcode([[${id7}]], "code11");
+            $("#teaid9").barcode([[${id8}]], "code11");
+            $("#teaid10").barcode([[${id9}]], "code11");
+        }
+
+        function back() {
+            window.location.href = "/factory"
+        }
+    </script>
+    <style>
+        .table {
+            border: 1px dashed
+        }
+
+        .pic {
+            padding: 20px
+        }
+    </style>
+</head>
+<body onload="myFunc()">
+<h1 align="center">小包茶叶ID</h1>
+<h2 align="center">请自行打印并贴在包装上</h2>
+<table width="100%" class="table">
+    <tr>
+        <th class="table">茶叶小包ID</th>
+        <th class="table">茶叶小包条形码</th>
+    </tr>
+    <tr>
+        <td align="center" class="table" th:text="${id0}">123456789012345678</td>
+        <td align="center" class="table pic">
+            <div id="teaid1"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" class="table" th:text="${id1}">123456789012345678</td>
+        <td align="center" class="table pic">
+            <div id="teaid2"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" class="table" th:text="${id2}">123456789012345678</td>
+        <td align="center" class="table pic">
+            <div id="teaid3"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" class="table" th:text="${id3}">123456789012345678</td>
+        <td align="center" class="table pic">
+            <div id="teaid4"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" class="table" th:text="${id4}">123456789012345678</td>
+        <td align="center" class="table pic">
+            <div id="teaid5"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" class="table" th:text="${id5}">123456789012345678</td>
+        <td align="center" class="table pic">
+            <div id="teaid6"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" class="table" th:text="${id6}">123456789012345678</td>
+        <td align="center" class="table pic">
+            <div id="teaid7"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" class="table" th:text="${id7}">123456789012345678</td>
+        <td align="center" class="table pic">
+            <div id="teaid8"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" class="table" th:text="${id8}">123456789012345678</td>
+        <td align="center" class="table pic">
+            <div id="teaid9"></div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" class="table" th:text="${id9}">123456789012345678</td>
+        <td align="center" class="table pic">
+            <div id="teaid10"></div>
+        </td>
+    </tr>
+</table>
+<div align="center">
+    <button onclick="print()">点此打印</button>
+    <button onclick="back()">点此返回主面板</button>
+</div>
+
+</body>
+</html>

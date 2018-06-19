@@ -27,6 +27,20 @@
   <link rel="stylesheet" th:href="@{/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css}">
   <!-- Google Font: Source Sans Pro -->
   <link th:href="@{/css/googlefonts.css}" rel="stylesheet">
+    <script th:inline="javascript">
+        var csrfName = [[${_csrf.parameterName}]];
+        var token = [[${_csrf.token}]];
+        var map = {};
+        map[csrfName] = token;
+
+        function logoutFunc() {
+            $.post('/logout', map,
+                function () {
+                    alert("你已成功登出，即将跳转回主页");
+                    window.location.href = '/';
+                })
+        }
+    </script>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -42,7 +56,8 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown"><a class="nav-link" data-toggle="dropdown" th:href="@{/logout}"> <em class="fa fa-sign-out"></em></a>
+        <li class="nav-item dropdown"><a class="nav-link" data-toggle="dropdown" onclick="logoutFunc()" href="#"> <em
+                class="fa fa-sign-out"></em></a>
       </li>
     </ul>
   </nav>

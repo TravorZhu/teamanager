@@ -1,41 +1,32 @@
 package top.travorzhu.teamanager.Entity.Tea;
 
-import org.springframework.security.core.context.SecurityContextHolder;
-import top.travorzhu.teamanager.Entity.Factory.Factory;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.util.Date;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class TeaSmall {
     @Id
     String id;
 
     String teaBigId;
 
-    boolean isSaled;
+    boolean saled;
+
+    int checkedTime;
+
+    Date lastCheckDate;
 
     public TeaSmall(String id,String teaBig) {
         this.id = id;
-        this.isSaled=false;
-        this.teaBigId=teaBig;
-    }
-
-    public TeaSmall() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getTeaBig() {
-        return teaBigId;
-    }
-
-    public void setTeaBig(String teaBig) {
+        this.saled = false;
+        this.checkedTime = 0;
+        this.lastCheckDate = null;
         this.teaBigId = teaBig;
     }
 }

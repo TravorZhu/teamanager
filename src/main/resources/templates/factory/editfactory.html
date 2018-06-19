@@ -27,7 +27,22 @@
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" th:href="@{/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css}">
     <!-- Google Font: Source Sans Pro -->
-    <link th:href="@{/css/googlefonts.css}" rel="stylesheet">\
+    <link th:href="@{/css/googlefonts.css}" rel="stylesheet">
+
+    <script th:inline="javascript">
+        var csrfName = [[${_csrf.parameterName}]];
+        var token = [[${_csrf.token}]];
+        var map = {};
+        map[csrfName] = token;
+
+        function logoutFunc() {
+            $.post('/logout', map,
+                function () {
+                    alert("你已成功登出，即将跳转回主页");
+                    window.location.href = '/';
+                })
+        }
+    </script>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -43,7 +58,8 @@
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
             <!-- Messages Dropdown Menu -->
-            <li class="nav-item dropdown"><a class="nav-link" data-toggle="dropdown" th:href="@{/logout}"> <em
+            <li class="nav-item dropdown"><a class="nav-link" data-toggle="dropdown" href="#" onclick="logoutFunc()">
+                <em
                     class="fa fa-sign-out"></em></a>
             </li>
         </ul>
@@ -65,7 +81,7 @@
                     <img th:src="@{/dist/img/user2-160x160.jpg}" class="img-circle elevation-2" alt="User Image" src="">
                 </div>
                 <div class="info">
-                    <a href="#" th:text="*{username}"s class="d-block">Factory</a>
+                    <a th:href="@{/factory/editfactory}" th:text="*{username}" s class="d-block">Factory</a>
                 </div>
             </div>
 
