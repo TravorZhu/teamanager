@@ -38,10 +38,11 @@ public class TeaBig {
         this.factory=factory;
         this.makeName = addTeaForm.getMakeName();
 
-        SimpleDateFormat df = new SimpleDateFormat("YYYYMMDd");
+        SimpleDateFormat df = new SimpleDateFormat("YYYYMMdd");
         String id=df.format(new Date());
+
         id+=String.format("%04d",factory.getId());
-        id+=String.format("%04d",factory.getLastTeaNum());
+        id += String.format("%05d", factory.getLastTeaNum());
         this.id=id;
         teaSmalls=new ArrayList<>();
         for (int i=0;i<10;i++) {

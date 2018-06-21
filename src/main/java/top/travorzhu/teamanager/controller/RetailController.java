@@ -42,8 +42,11 @@ public class RetailController {
             TeaSmall teaSmall = optionalTeaSmall.get();
             if (teaSmall.isSaled())
                 bindingResult.addError(new FieldError("saledTeaForm", "teaId", "该茶叶小包已售出"));
-            else
+            else {
                 teaSmall.setSaled(true);
+                teaSmallRepository.save(teaSmall);
+            }
+
         }
         if (bindingResult.hasErrors())
             return "/retail/sale";

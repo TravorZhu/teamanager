@@ -53,6 +53,10 @@ public class FactoryController {
     @GetMapping("/factory/add")
     String add(Model model, AddTeaForm addTeaForm) {
         model.addAttribute("username", MyUtil.getUsername(SecurityContextHolder.getContext().getAuthentication()));
+        MyUserDetail user = (MyUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Factory factory = factoryRepostory.findByMyUserDetail(user);
+        if (factory == null)
+            return "redirect:/factory/editfactory?need";
         return "/factory/add";
     }
 
@@ -92,12 +96,12 @@ public class FactoryController {
         Factory factory = factoryRepostory.findByMyUserDetail(myUserDetail);
         if (factory==null){
             factory=new Factory(editFactoryForm.getName(),editFactoryForm.getAddress(),userRepository.findByUserName(myUserDetail.getUserName()));
-            factoryRepostory.save(factory);
         }
         else {
             factory.setAddr(editFactoryForm.getAddress());
             factory.setName(editFactoryForm.getName());
         }
+        factoryRepostory.save(factory);
         return "redirect:/factory/editfactory?success";
     }
 

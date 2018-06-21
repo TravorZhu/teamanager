@@ -10,11 +10,11 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import top.travorzhu.teamanager.Entity.User.*;
 import top.travorzhu.teamanager.Form.AddUserForm;
 import top.travorzhu.teamanager.Form.ChangePasswordForm;
 import top.travorzhu.teamanager.MyUtil;
 import top.travorzhu.teamanager.Table.UserForm;
-import top.travorzhu.teamanager.Entity.User.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -108,6 +108,7 @@ public class AdminController {
         }
         MyUserDetail myUserDetail=userRepository.findByUserName(form.getUsername());
         myUserDetail.setPassWord(new BCryptPasswordEncoder().encode(form.getPassword().trim()));
+        userRepository.save(myUserDetail);
         return "redirect:./listuser?changesuccess";
     }
 }
