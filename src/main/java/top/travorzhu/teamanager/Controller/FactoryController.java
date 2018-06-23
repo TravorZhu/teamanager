@@ -1,4 +1,4 @@
-package top.travorzhu.teamanager.controller;
+package top.travorzhu.teamanager.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,7 +46,14 @@ public class FactoryController {
 
     @GetMapping("/factory")
     String index(Model model) {
-        model.addAttribute("username", MyUtil.getUsername(SecurityContextHolder.getContext().getAuthentication()));
+        MyUserDetail myUserDetail = (MyUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        model.addAttribute("username", myUserDetail.getUserName());
+        Factory factory = factoryRepostory.findByMyUserDetail(myUserDetail);
+        model.addAttribute("lastsaled", teaSmallRepository.countBySaledLastMonthAndFactoryId(factory.getId()));
+        model.addAttribute("saledrate", (int) (teaSmallRepository.countAllByFactoryIdAAndSaledIsTrue(factory.getId()) / (double) teaSmallRepository.countAllByFactoryId(factory.getId()) * 100));
+        model.addAttribute("alltea", teaBigRepository.countAllByFactory(factory));
+        model.addAttribute("allsaled", teaSmallRepository.countAllByFactoryIdAAndSaledIsTrue(factory.getId()));
         return "/factory/index";
     }
 
@@ -119,13 +126,16 @@ public class FactoryController {
         factory = factoryRepostory.findByMyUserDetail(user);
         List<TeaBig> teaBigs = teaBigRepository.findAllByFactory(factory);
         List<TeaForm> teaForms = new ArrayList<>();
+
         for (TeaBig teabig :
                 teaBigs) {
+            String showImgPath = "/showimg/" + teabig.getImgPath().split("/", 3)[2];
+            System.out.println(showImgPath);
             teaForms.add(new TeaForm(teabig.getId(),
                     teabig.getName(),
                     teabig.getMakeName(),
                     teaSmallRepository.countByTeaBigIdAndSaledIsTrue(teabig.getId()),
-                    teabig.getImgPath()));
+                    showImgPath));
         }
         model.addAttribute("username", MyUtil.getUsername(SecurityContextHolder.getContext().getAuthentication()));
         model.addAttribute("teaForms", teaForms);

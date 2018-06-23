@@ -28,7 +28,7 @@ module.exports = {
    hslaString: hslaString,
    hwbString: hwbString,
    keyword: keyword
-}
+};
 
 function getRgba(string) {
    if (!string) {
@@ -771,7 +771,7 @@ module.exports = {
   lch2lab: lch2lab,
   lch2xyz: lch2xyz,
   lch2rgb: lch2rgb
-}
+};
 
 
 function rgb2hsl(rgb) {
@@ -1420,7 +1420,7 @@ var conversions = require(3);
 
 var convert = function() {
    return new Converter();
-}
+};
 
 for (var func in conversions) {
   // export Raw versions
@@ -1666,8 +1666,8 @@ module.exports = {
 //! license : MIT
 //! momentjs.com
 
-;(function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+        (function (global, factory) {
+            typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
     global.moment = factory()
 }(this, (function () { 'use strict';
@@ -8182,7 +8182,7 @@ module.exports = function(Chart) {
 
 	/**
 	 * @class Chart.Controller
-	 * The main controller of a chart.
+     * The main Controller of a chart.
 	 */
 	Chart.Controller = function(item, config, instance) {
 		var me = this;
@@ -8218,7 +8218,7 @@ module.exports = function(Chart) {
 
 		if (!context || !canvas) {
 			// The given item is not a compatible context2d element, let's return before finalizing
-			// the chart initialization but after setting basic chart / controller properties that
+            // the chart initialization but after setting basic chart / Controller properties that
 			// can help to figure out that the chart is not valid (e.g chart.canvas !== null);
 			// https://github.com/chartjs/Chart.js/issues/2807
 			console.error("Failed to create chart: can't acquire context from the given item");
@@ -8599,7 +8599,7 @@ module.exports = function(Chart) {
 				return;
 			}
 
-			// Draw each dataset via its respective controller (reversed to support proper line stacking)
+            // Draw each dataset via its respective Controller (reversed to support proper line stacking)
 			helpers.each(me.data.datasets, function(dataset, datasetIndex) {
 				if (me.isDatasetVisible(datasetIndex)) {
 					me.getDatasetMeta(datasetIndex).controller.draw(easingValue);
@@ -11019,7 +11019,7 @@ module.exports = function(Chart) {
 			var ci = this.chart;
 			var meta = ci.getDatasetMeta(index);
 
-			// See controller.isDatasetVisible comment
+            // See Controller.isDatasetVisible comment
 			meta.hidden = meta.hidden === null? !ci.data.datasets[index].hidden : null;
 
 			// We hid a dataset ... rerender the chart
@@ -14626,7 +14626,7 @@ module.exports = function(Chart) {
 
 	/**
 	 * Initializes the canvas style and render size without modifying the canvas display size,
-	 * since responsiveness is handled by the controller.resize() method. The config is used
+     * since responsiveness is handled by the Controller.resize() method. The config is used
 	 * to determine the aspect ratio to apply in case no explicit height has been specified.
 	 */
 	function initCanvas(canvas, config) {

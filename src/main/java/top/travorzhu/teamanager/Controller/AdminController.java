@@ -1,4 +1,4 @@
-package top.travorzhu.teamanager.controller;
+package top.travorzhu.teamanager.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,6 +10,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import top.travorzhu.teamanager.Entity.Tea.TeaSmallRepository;
 import top.travorzhu.teamanager.Entity.User.*;
 import top.travorzhu.teamanager.Form.AddUserForm;
 import top.travorzhu.teamanager.Form.ChangePasswordForm;
@@ -31,9 +32,16 @@ public class AdminController {
     @Autowired
     UserNRoleRepository userNRoleRepository;
 
+    @Autowired
+    TeaSmallRepository teaSmallRepository;
+
     @GetMapping("/admin")
     String AdminIndex(Model model){
         model.addAttribute("username",MyUtil.getUsername(SecurityContextHolder.getContext().getAuthentication()));
+        model.addAttribute("usernumbers", userRepository.count());
+        model.addAttribute("saledtea", teaSmallRepository.countBySaledLastMonth());
+        model.addAttribute("alltea", teaSmallRepository.countBySaledIsFalse());
+        model.addAttribute("saledrate", (int) (teaSmallRepository.countBySaledIsTrue() / (double) teaSmallRepository.count() * 100));
         return "admin/index";
     }
 

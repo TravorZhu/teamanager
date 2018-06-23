@@ -1,4 +1,4 @@
-package top.travorzhu.teamanager.controller;
+package top.travorzhu.teamanager.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import top.travorzhu.teamanager.Entity.Tea.TeaSmall;
 import top.travorzhu.teamanager.Entity.Tea.TeaSmallRepository;
+import top.travorzhu.teamanager.Entity.User.MyUserDetail;
 import top.travorzhu.teamanager.Form.SaledTeaForm;
 import top.travorzhu.teamanager.MyUtil;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.Optional;
 
 @Controller
@@ -23,7 +25,10 @@ public class RetailController {
 
     @GetMapping("/retail")
     String RetailIndex(Model model) {
-        model.addAttribute("username", MyUtil.getUsername(SecurityContextHolder.getContext().getAuthentication()));
+        MyUserDetail myUserDetail = (MyUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("username", myUserDetail.getUserName());
+        model.addAttribute("lastsale", teaSmallRepository.countAllBySaledIsTrueAndSaleUserDetailIdAndSaledLastMonth(myUserDetail.getId()));
+        model.addAttribute("allsale", teaSmallRepository.countAllBySaledIsTrueAndSaleUserDetailId(myUserDetail.getId()));
         return "/retail/index";
     }
 
@@ -44,6 +49,8 @@ public class RetailController {
                 bindingResult.addError(new FieldError("saledTeaForm", "teaId", "该茶叶小包已售出"));
             else {
                 teaSmall.setSaled(true);
+                teaSmall.setSaleDate(new Date());
+                teaSmall.setSaleUserDetailId(((MyUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
                 teaSmallRepository.save(teaSmall);
             }
 

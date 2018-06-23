@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>茶叶溯源管理系统 | 零售商控制面板</title>
+    <title>茶叶溯源管理系统 | 零售商控制台</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -58,7 +58,7 @@
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
             <!-- Messages Dropdown Menu -->
-            <li class="nav-item dropdown"><a class="nav-link" data-toggle="dropdown" href="#" onclick="logoutFunc()">
+            <li class="nav-item dropdown"><a class="nav-link" data-toggle="dropdown" onclick="logoutFunc()" href="#">
                 <em class="fa fa-sign-out"></em></a>
             </li>
         </ul>
@@ -69,8 +69,8 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a th:href="@{/}" class="brand-link">
-            <img th:src="@{/img/leaf.png}" alt="零售商控制面板" class="brand-image " style="opacity: .8">
-            <span class="brand-text font-weight-light">零售商面板</span></a>
+            <img th:src="@{/img/leaf.png}" alt="零售商控制台" class="brand-image " style="opacity: .8">
+            <span class="brand-text font-weight-light">零售商控制台</span></a>
 
         <!-- Sidebar -->
         <div class="sidebar">
@@ -135,7 +135,7 @@
                                     <p th:if="${#fields.hasErrors('teaId')}" th:errors="*{teaId}" class="bg-danger">
                                         产品ID错误</p>
                                     <input type="text" class="form-control" id="TeaId" th:field="*{teaId}"
-                                           placeholder="输入产品名">
+                                           placeholder="输入产品ID">
                                 </div>
                             </div>
                             <!-- /.card-body -->
@@ -168,7 +168,7 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->

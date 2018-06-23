@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>茶叶溯源管理系统 | 管理员控制面板</title>
+    <title>茶叶溯源管理系统 | 零售商控制台</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -69,8 +69,8 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a th:href="@{/}" class="brand-link">
-            <img th:src="@{/img/leaf.png}" alt="零售商控制面板" class="brand-image " style="opacity: .8">
-            <span class="brand-text font-weight-light">零售商面板</span></a>
+            <img th:src="@{/img/leaf.png}" alt="零售商控制台" class="brand-image " style="opacity: .8">
+            <span class="brand-text font-weight-light">零售商控制台</span></a>
 
         <!-- Sidebar -->
         <div class="sidebar">
@@ -141,7 +141,7 @@
                         <!-- small box -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>150</h3>
+                                <h3 th:text="${lastsale}">150</h3>
 
                                 <p>近一月来已售出</p>
                             </div>
@@ -155,7 +155,7 @@
                         <!-- small box -->
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3>53<sup style="font-size: 20px">%</sup></h3>
+                                <h3 th:text="${allsale}">53</sup></h3>
                                 <p>总售出</p>
                             </div>
                             <div class="icon">

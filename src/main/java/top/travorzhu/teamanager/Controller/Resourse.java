@@ -1,4 +1,4 @@
-package top.travorzhu.teamanager.controller;
+package top.travorzhu.teamanager.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -15,6 +15,12 @@ public class Resourse {
 
     @Autowired
     private StorageService storageService;
+
+    @GetMapping("/showimg/{filename:.+}")
+    @ResponseBody
+    public String PicView(@PathVariable String filename) {
+        return String.format("<img src=\"/teaimg/%s\" />", filename);
+    }
 
     @GetMapping("/teaimg/{filename:.+}")
     @ResponseBody

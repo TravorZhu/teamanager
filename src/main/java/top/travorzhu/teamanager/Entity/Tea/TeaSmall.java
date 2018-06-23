@@ -12,15 +12,19 @@ import java.util.Date;
 @NoArgsConstructor
 public class TeaSmall {
     @Id
-    String id;
+    private String id;
 
-    String teaBigId;
+    private String teaBigId;
 
-    boolean saled;
+    private boolean saled;
 
-    int checkedTime;
+    private int checkedTime;
 
-    Date lastCheckDate;
+    private Date lastCheckDate;
+
+    private Date saleDate;
+
+    private int saleUserDetailId;
 
     public TeaSmall(String id,String teaBig) {
         this.id = id;
@@ -28,5 +32,6 @@ public class TeaSmall {
         this.checkedTime = 0;
         this.lastCheckDate = null;
         this.teaBigId = teaBig;
+        this.saleUserDetailId = 0;
     }
 }
