@@ -16,6 +16,12 @@ public class Resourse {
     @Autowired
     private StorageService storageService;
 
+    @GetMapping("/showimg/{filename:.+}")
+    @ResponseBody
+    public String PicView(@PathVariable String filename) {
+        return String.format("<img src=\"/teaimg/%s\" />", filename);
+    }
+
     @GetMapping("/teaimg/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {

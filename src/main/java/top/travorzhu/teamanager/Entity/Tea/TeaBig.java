@@ -37,9 +37,10 @@ public class TeaBig {
         this.detail=addTeaForm.getDetail();
         this.factory=factory;
         this.makeName = addTeaForm.getMakeName();
+        this.date = new Date();
 
         SimpleDateFormat df = new SimpleDateFormat("YYYYMMdd");
-        String id=df.format(new Date());
+        String id = df.format(date);
 
         id+=String.format("%04d",factory.getId());
         id += String.format("%05d", factory.getLastTeaNum());

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--/*@thymesVar id="addTeaForm" type="top.travorzhu.teamanager.Form.AddTeaForm"*/-->
+<form th:action="@{'/factory/add'}" th:object="${addTeaForm}" method="post" enctype="multipart/form-data">
+    <!--<div class="card-body">-->
+    <!--<p th:if="${param.add}" class="bg-success text-success text-center">添加成功</p>-->
+    <!--<div class="form-group">-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--<label for="Name">产品名字</label>-->
+    <!--<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="bg-danger"></p>-->
+    <input type="text" id="name" name="name" th:field="*{name}" placeholder="输入产品名">
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--<label for="Detail">详细信息</label>-->
+    <!--<p th:if="${#fields.hasErrors('detail')}" th:errors="*{detail}" class="bg-danger"></p>-->
+    <!--<textarea rows="5" warp="virtual" class="form-control" id="Detail" th:field="*{detail}" placeholder="输入详细描述"></textarea>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--<label for="imagine">图片</label>-->
+    <!--<p th:if="${#fields.hasErrors('file')}" th:errors="*{file}" class="bg-danger"></p>-->
+    <!--<input type="file" id="imagine" name="file" th:field="*{imagine}">-->
+    <!--</div>-->
+    <input type="submit">
+    <!--</div>-->
+</form>
+</body>
+</html>

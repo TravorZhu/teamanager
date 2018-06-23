@@ -7,12 +7,21 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import top.travorzhu.teamanager.Entity.Tea.TeaBig;
+import top.travorzhu.teamanager.Entity.Tea.TeaBigRepository;
+import top.travorzhu.teamanager.Entity.Tea.TeaSmall;
+import top.travorzhu.teamanager.Entity.Tea.TeaSmallRepository;
+import top.travorzhu.teamanager.Entity.User.*;
 import top.travorzhu.teamanager.Form.AddUserForm;
 import top.travorzhu.teamanager.MyUtil;
-import top.travorzhu.teamanager.Entity.User.*;
+import top.travorzhu.teamanager.Table.SearchForm;
 
 import javax.validation.Valid;
+import java.util.Date;
+import java.util.Optional;
 
 @Controller
 public class LoginController {
@@ -25,6 +34,12 @@ public class LoginController {
 
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    TeaBigRepository teaBigRepository;
+
+    @Autowired
+    TeaSmallRepository teaSmallRepository;
 
     @GetMapping("/")
     public String index(Model model){
@@ -45,7 +60,7 @@ public class LoginController {
         if (userRepository.count()==0){
             return "init";
         }
-        return "/";
+        return "redirect:/";
     }
 
     @PostMapping("/init")
@@ -70,5 +85,31 @@ public class LoginController {
         userRepository.saveAndFlush(new MyUserDetail(form));
         userNRoleRepository.save(new UserEntityRole(userRepository.findByUserName(form.getUsername()).getId(), role));
         return "redirect:/";
+    }
+
+    @GetMapping("/search")
+    public String Search(Model model) {
+        model.addAttribute("success", false);
+        return "search";
+    }
+
+    @PostMapping("/search")
+    public String SearchPost(Model model, @RequestParam(name = "id", required = true) String id) {
+        Optional<TeaSmall> optionalTeaSmall = teaSmallRepository.findById(id);
+        if (!optionalTeaSmall.isPresent())
+            return "redirect:search?error";
+        TeaSmall teaSmall = optionalTeaSmall.get();
+        if (!teaSmall.isSaled())
+            return "redirect:search?error";
+        String teaBigId = teaSmall.getTeaBigId();
+        TeaBig teaBig = teaBigRepository.findById(teaBigId).get();
+
+        SearchForm form = new SearchForm(teaBig, teaSmall);
+        model.addAttribute("searchForm", form);
+        model.addAttribute("success", true);
+        teaSmall.setCheckedTime(teaSmall.getCheckedTime() + 1);
+        teaSmall.setLastCheckDate(new Date());
+        teaSmallRepository.save(teaSmall);
+        return "search";
     }
 }

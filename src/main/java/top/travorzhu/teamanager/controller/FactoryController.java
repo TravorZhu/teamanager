@@ -119,13 +119,16 @@ public class FactoryController {
         factory = factoryRepostory.findByMyUserDetail(user);
         List<TeaBig> teaBigs = teaBigRepository.findAllByFactory(factory);
         List<TeaForm> teaForms = new ArrayList<>();
+
         for (TeaBig teabig :
                 teaBigs) {
+            String showImgPath = "/showimg/" + teabig.getImgPath().split("/", 3)[2];
+            System.out.println(showImgPath);
             teaForms.add(new TeaForm(teabig.getId(),
                     teabig.getName(),
                     teabig.getMakeName(),
                     teaSmallRepository.countByTeaBigIdAndSaledIsTrue(teabig.getId()),
-                    teabig.getImgPath()));
+                    showImgPath));
         }
         model.addAttribute("username", MyUtil.getUsername(SecurityContextHolder.getContext().getAuthentication()));
         model.addAttribute("teaForms", teaForms);
