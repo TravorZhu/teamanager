@@ -50,6 +50,8 @@ public class FactoryController {
 
         model.addAttribute("username", myUserDetail.getUserName());
         Factory factory = factoryRepostory.findByMyUserDetail(myUserDetail);
+        if (factory == null)
+            return "redirect:/factory/editfactory?need";
         model.addAttribute("lastsaled", teaSmallRepository.countBySaledLastMonthAndFactoryId(factory.getId()));
         model.addAttribute("saledrate", (int) (teaSmallRepository.countAllByFactoryIdAAndSaledIsTrue(factory.getId()) / (double) teaSmallRepository.countAllByFactoryId(factory.getId()) * 100));
         model.addAttribute("alltea", teaBigRepository.countAllByFactory(factory));
@@ -130,7 +132,6 @@ public class FactoryController {
         for (TeaBig teabig :
                 teaBigs) {
             String showImgPath = "/showimg/" + teabig.getImgPath().split("/", 3)[2];
-            System.out.println(showImgPath);
             teaForms.add(new TeaForm(teabig.getId(),
                     teabig.getName(),
                     teabig.getMakeName(),
